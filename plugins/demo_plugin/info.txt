@@ -1,0 +1,9 @@
+Demo Plugin
+Version 1.0
+Created by Ben Haynes - 2012
+
+This is a demonstration plugin. It doesn't actually have any cool features, but you can find and add more useful plugins <a href="http://getdirectus.com/support/#plugins">here</a> or make your own, it's easy! Plugins can be anything you need them to be, they are in essence just PHP pages that fit within the Directus framework.
+
+You could find or make a plugin for custom data-entry, special chart views, project management… really anything that you want or need that Directus-Core doesn't offer. 
+
+Learn more at <a href="http://getdirectus.com/support/#plugins">http://getdirectus.com/support/#plugins</a>

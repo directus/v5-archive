@@ -1,0 +1,4 @@
+AuthName "No Access"
+AuthType Basic
+AuthUserFile /.missing
+Require valid-user

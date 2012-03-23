@@ -1,0 +1,60 @@
+############################################################
+# Settings
+
+
+php_value upload_max_filesize 30M
+
+
+############################################################
+
+
+# Secure htaccess file
+<Files .htaccess>
+	order allow,deny
+	deny from all
+</Files>
+
+
+RewriteEngine On
+
+
+# Redirect root folder
+#RewriteRule ^$ login.php [R]
+
+
+# Don't show file/directory listing, go to tables page
+Options -Indexes
+DirectoryIndex login.php
+
+
+# Missing thumbnails
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^media/cms_thumbs/.+\.(png|jpg|gif)$ media/site/missing_100_100.gif [L]
+
+
+# Turn off ETags to rely on expires
+Header unset ETag
+FileETag None
+
+
+# Remove Last-Modified to rely on expires
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css)$">
+	Header unset Last-Modified
+</FilesMatch>
+
+
+# Set a far future expiration
+<IfModule mod_expires.c>
+	<FilesMatch "\.(ico|pdf|flv|mp3|mov|avi|3pg|jpe?g|png|gif|js|css|swf)$">
+		ExpiresActive On
+		ExpiresDefault "access plus 1 year"
+	</FilesMatch>
+</IfModule>
+
+
+# Go to tables page on all errors (no relative links)
+#ErrorDocument 400 tables.php
+#ErrorDocument 401 tables.php
+#ErrorDocument 403 tables.php
+#ErrorDocument 404 tables.php
+#ErrorDocument 500 tables.php

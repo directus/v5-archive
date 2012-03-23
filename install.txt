@@ -1,0 +1,67 @@
+
+Directus 5.0.b
+///////////////////////////////////////////
+
+Thank you for downloading Directus. If you have any questions please check out our support docs:
+
+http://getdirectus.com/support/
+
+
+Installation (Time required: under 5 minutes)
+///////////////////////////////////////////
+
+1. Upload this entire folder to your server
+2. Create an empty MySQL database and a user with 
+2. Open the folder in your browser and you will be redirected to install.php. This page will ask you a few database questions and save a config.php file for you.
+3. The installer will then help you create your first admin's account
+4. You'll then be taken to the Directus login page (log in with the info you provided in step 3)
+
+
+Permissions
+///////////////////////////////////////////
+
+The installation process attempts to update your folder/file permissions, some servers don't allow this so please ensure the following permissions:
+
+inc/config.php" - 0755
+inc/backups/" - 0755
+media/cms_thumbs/" - 0755
+media/temp/" - 0755
+media/users/" - 0755
+
+Folders created one directory below Directus for default media storage:
+../media/files/'
+../media/files/" - 0755
+
+
+Updating
+///////////////////////////////////////////
+
+http://getdirectus.com/changelog/
+
+To successfully update your version of Directus please first check the changelog, noting all updates from your version to the current version. If there are any database changes required they will be noted on that page. Other than that, you can simply upload the new files to your server… being sure not to overwrite the following:
+
+inc/backups/
+inc/config.php
+media/cms_thumbs/
+media/thumbnails/
+media/users/
+plugins/
+
+
+Requirements
+///////////////////////////////////////////
+PHP 5.1
+MySQL 4.0
+PDO with MySQL Extension - For security
+Register Globals Off - For security
+Safe Mode Off - For security
+GD Library - Used to alter media (such as auto-thumbnail creation)
+File Uploads Enabled - For adding media from your computer
+cURL Enabled - For adding media from other sites (such as YouTube or Vimeo)
+
+
+License
+///////////////////////////////////////////
+
+Directus is free software and is released under the terms of the GPL v3:
+http://getdirectus.com/license/

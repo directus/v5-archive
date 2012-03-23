@@ -1,0 +1,48 @@
+# Enable expirations
+ExpiresActive On
+
+# expire JPEG images after a month in the client's cache
+ExpiresByType image/jpeg A2592000
+
+RewriteEngine on
+#RewriteBase /unknown_folder/media/thumbnails/ # optional, depends on your setup
+
+#Check for file existence here and forward if exists
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^([0-9]+)-([0-9]+)-([0-9]+)(-(crop))?\.jpg$ thumbnail.php?id=$1&w=$2&h=$3&c=$4 [L,QSA]
+#RewriteRule ^(.*)$ thumbnail.php?file=$1
+
+# Capture the filename and query strings
+#RewriteCond %{REQUEST_BASENAME} .(jpg|gif|png)$
+#RewriteCond %{QUERY_STRING} w=([0-9]+)&h=([0-9]+)(&c=true)
+
+
+############################################################################################################
+# Dash-delimited format
+
+# Check if file exists
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+
+# Refresh if has query string ?refresh=true
+RewriteCond %{QUERY_STRING} ^refresh$
+
+# Check the formatting
+RewriteCond %{REQUEST_FILENAME} /([^/.]+)-(jpg|gif|png|vimeo)-([0-9]+)-([0-9]+)-(true|false).jpg
+
+# If file doesn't exist, send here:
+RewriteRule ^.*$ thumbnail.php?file_name=%1&extension=%2&w=%3&h=%4&c=%5&refresh=%{QUERY_STRING}
+
+
+############################################################################################################
+# Query String Format
+
+
+# Check the formatting
+RewriteCond %{SCRIPT_FILENAME}%{QUERY_STRING} /([^/.]+).(jpg|gif|png|vimeo)?w=([0-9]+)&h=([0-9]+)&c=(true|false)
+
+# Only forward to thumbnail.php if file doesn't exist
+#RewriteCond %1-%2-%3-%4-%5.jpg !-f
+
+# If file doesn't exist, send here:
+RewriteRule ^.*$ thumbnail.php?file_name=%1&extension=%2&w=%3&h=%4&c=%5
