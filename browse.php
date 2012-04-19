@@ -75,7 +75,7 @@ function show_browse_rows() {
 			}
 			
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			// Loop through all field in this item
+			// Loop through all fields in this item
 			
 			foreach($table_rows['fields'] as $key => $field){
 				$type = $table_rows['info'][$field]['type_lengthless'];
@@ -336,14 +336,21 @@ require_once("inc/header.php");
 			
 			foreach($table_rows['fields'] as $key => $field){
 				if($settings['field_hidden'][$table_rows['name'].','.$field] != 'true'){
+					$class_first = ($key == 0)? 'first_field' : '';
+					$class_order = ($field_order[0] == $field)? $field_direction : '';
+					$field_style = ((!$table_rows['header_fields'] && $key<8) || $settings['field_primary'][$table_rows['name']] == $field || strpos($table_rows['header_fields'], ','.$field.',') !== false)? '' : 'style="display:none;"';
 					?>
-					<th sort="<?PHP echo $field; ?>" class="header field_<?PHP echo $field; ?> <?PHP echo ($key == 0)? 'first_field':''; ?> <?PHP echo ($field_order[0] == $field)? $field_direction : '';?>" <?PHP echo ((!$table_rows['header_fields'] && $key<8) || $settings['field_primary'][$table_rows['name']] == $field || strpos($table_rows['header_fields'], ','.$field.',') !== false)?'':'style="display:none;"';?> >
+					<th sort="<?PHP echo $field; ?>" class="header field_<?PHP echo $field; ?> <?PHP echo $class_first . ' ' . $class_order;?>" <?PHP echo $field_style; ?> >
 						<div class="wrap">
 							<?PHP 
 							echo uc_convert($field);
 							
 							// Add mail icon for email fields
-							echo ($settings["field_format"][$table_rows['name'].",".$field] == 'email')? ' <a href="#" field="'.$field.'" table="'.$table_rows['name'].'" class="generate_email_list"><img src="media/site/icons/mail-medium.png" width="16" height="16" /></a>':'';
+							if($settings["field_format"][$table_rows['name'].",".$field] == 'email'){
+								?>
+								<a href="#" field="<?PHP echo $field; ?>" table="<?PHP echo $table_rows['name']; ?>" class="generate_email_list"><img src="media/site/icons/mail-medium.png" width="16" height="16" /></a>
+								<?PHP
+							}
 							?>
 							<span class="ui-icon up"></span>
 						</div>
