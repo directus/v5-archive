@@ -87,7 +87,7 @@ if(isset($_POST['saving'])) {
 		$value = convert_smart_quotes($value);									// Removes some WORD style characters
 		
 		// Based on field settings:
-		$value = ($settings['field_option'][$table.','.$field]['text_area']['no_nl2br'] == 'true')? $value : nl2br($value);
+		$value = ($settings['field_option'][$table.','.$field]['text_area']['no_nl2br'] == 'true' || $settings['field_format'][$table.','.$field] == 'wysiwyg')? $value : nl2br($value);
 		$value = ($settings['field_option'][$table.','.$field]['text_area']['urls_to_links'] == 'true')? convert_urls_to_links($value) : $value;
 		
 		$value = str_replace("'", "\'", $value);

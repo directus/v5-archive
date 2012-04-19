@@ -40,6 +40,12 @@ if($datatype == 'text_field'){
 		<input type="checkbox" name="field_option[<?PHP echo $table_field;?>][urls_to_links]" value="true" <?PHP echo ($option['urls_to_links'])?'checked="checked"':'';?> /> <label>Auto-convert URLs to links</label>
 	</div>
 	<?PHP
+} elseif($datatype == 'wysiwyg') {
+	?>
+	<div class="block">
+		<input type="text" name="field_option[<?PHP echo $table_field;?>][height]" maxlength="3" size="3" class="small force_numeric" value="<?PHP echo ($option['height'])?$option['height']:'8';?>" /> <label class="normal">Height (rows)</label>
+	</div>
+	<?PHP	
 } elseif($datatype == 'table_view') {
 	?>
 	<div class="block">

@@ -1181,9 +1181,6 @@ $(document).ready(function(){
 	
 	
 	
-	
-	
-	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2178,6 +2175,45 @@ function modal_edit_live(){
 		}
 		$(this).val('');
 	});
+	
+	//////////////////////////////////////////////////////////////////////////////
+	// WYSIWYG editor (Tiny MCE)
+	
+	// Remove existing editors
+	var i, t = tinyMCE.editors;
+	for (i in t){
+		if (t.hasOwnProperty(i)){
+			t[i].remove();
+		}
+	}
+	
+	// Add new editors
+	tinyMCE.init({
+		// General options
+		mode : "specific_textareas",
+		editor_selector : "wysiwyg_advanced",
+		theme : "advanced",
+		plugins : "autolink,lists,style,table,iespell,inlinepopups,media,paste,directionality,noneditable,visualchars,xhtmlxtras,advlist",
+		
+		// Theme options
+		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,forecolor,backcolor,|,formatselect",
+		theme_advanced_buttons2 : "pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,code,removeformat",
+		theme_advanced_buttons3 : "tablecontrols,|,sub,sup,|,hr,charmap,iespell",
+		theme_advanced_toolbar_location : "top",
+		theme_advanced_toolbar_align : "left",
+		theme_advanced_resizing : true,
+		width : "91.5%",
+		
+		// Skin options
+		//skin : "o2k7",
+		//skin_variant : "silver",
+		
+		// Example content CSS (should be your site CSS)
+		content_css : "inc/js/tiny_mce/themes/advanced/skins/default/content.css",
+	});
+	
+	
+	//////////////////////////////////////////////////////////////////////////////
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

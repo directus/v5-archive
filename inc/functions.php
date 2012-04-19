@@ -72,8 +72,8 @@ function uc_media_title($text){
 
 function uc_convert($text){
 	$phrase = preg_replace('!\s+!', ' ', trim(ucwords(strtolower(str_replace('_', ' ', $text)))));
-	$uc_caps 		= array("Faq", "Iphone", "Ipad", "Ipod", "Pdf", "Pdfs", "Url", "Ip", "Ftp", "Db", "Cv", "Id", "Ph", "Php", "Html", "Js", "Css", "Mccaddon", "Rngr");
-	$special_caps 	= array("FAQ", "iPhone", "iPad", "iPod", "PDF", "PDFs", "URL", "IP", "FTP", "DB", "CV", "ID", "pH", "PHP", "HTML", "JS", "CSS", "McCaddon", "RNGR");
+	$uc_caps 		= array("Faq", "Iphone", "Ipad", "Ipod", "Pdf", "Pdfs", "Url", "Ip", "Ftp", "Db", "Wysiwyg", "Cv", "Id", "Ph", "Php", "Html", "Js", "Css", "Mccaddon", "Rngr");
+	$special_caps 	= array("FAQ", "iPhone", "iPad", "iPod", "PDF", "PDFs", "URL", "IP", "FTP", "DB", "WYSIWYG", "CV", "ID", "pH", "PHP", "HTML", "JS", "CSS", "McCaddon", "RNGR");
 	
 	foreach($uc_caps as $key => $value){
 		$uc_caps[$key] = ("/\b".$value."\b/");
@@ -1620,15 +1620,15 @@ function get_datatype_formats($datatype, $primary_only = false) {
 	$return['varchar'] 		= array('text_field', 'text_area', 'media', 'relational', 'options', 'tags', 'email', 'short_name', 'password', 'numeric', 'color', 'rating');
 	$return['char'] 		= array('text_field', 'text_area', 'media', 'relational', 'options', 'tags', 'email', 'short_name', 'password', 'numeric', 'color', 'rating');
 	
-	$return['text'] 		= array('text_area', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
-	$return['tinytext'] 	= array('text_area', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
-	$return['mediumtext'] 	= array('text_area', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
-	$return['longtext'] 	= array('text_area', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
+	$return['text'] 		= array('text_area', 'wysiwyg', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
+	$return['tinytext'] 	= array('text_area', 'wysiwyg', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
+	$return['mediumtext'] 	= array('text_area', 'wysiwyg', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
+	$return['longtext'] 	= array('text_area', 'wysiwyg', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
 	
-	$return['blob'] 		= array('text_area', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
-	$return['tinyblob'] 	= array('text_area', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
-	$return['mediumblob'] 	= array('text_area', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
-	$return['longblob'] 	= array('text_area', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
+	$return['blob'] 		= array('text_area', 'wysiwyg', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
+	$return['tinyblob'] 	= array('text_area', 'wysiwyg', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
+	$return['mediumblob'] 	= array('text_area', 'wysiwyg', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
+	$return['longblob'] 	= array('text_area', 'wysiwyg', 'table_view', 'text_field', 'media', 'relational', 'options', 'tags');
 	
 	$return['int'] 			= array('numeric', 'dropdown_int', 'rating', 'histogram');
 	$return['smallint'] 	= array('numeric', 'dropdown_int', 'rating', 'histogram');
@@ -2070,7 +2070,12 @@ function generate_fields($data) {
 						<li><a href="#" class="text_format_button" tabindex="-1" format="blockquote">Blockquote</a></li> 
 					</ul>
 				</div> 
-				<textarea class="textarea_formatted media_dropzone_target" parent_item="text_area_<?PHP echo $key;?>" extensions="jpg,gif,png" media_type="inline" rows="<?PHP echo ($field_option['text_area']["height"])? $field_option['text_area']["height"] : '8';?>" id="text_area_<?PHP echo $key;?>" name="<?PHP echo $key;?>" class="<?PHP echo $required;?>"><?PHP echo esc_attr(br2nl($value));?></textarea> 
+				<textarea class="textarea_formatted media_dropzone_target <?PHP echo $required;?>" parent_item="text_area_<?PHP echo $key;?>" extensions="jpg,gif,png" media_type="inline" rows="<?PHP echo ($field_option['text_area']["height"])? $field_option['text_area']["height"] : '8';?>" id="text_area_<?PHP echo $key;?>" name="<?PHP echo $key;?>"><?PHP echo esc_attr(br2nl($value));?></textarea> 
+			
+			<?PHP } elseif($field_format == 'wysiwyg') { ?>
+				
+				<label class="primary" for="<?PHP echo $key;?>"><?PHP echo uc_convert($key) . $required_mark;?></label> <?PHP echo $note; ?><br>
+				<textarea class="textarea_formatted wysiwyg_advanced <?PHP echo $required;?>" parent_item="text_area_<?PHP echo $key;?>" extensions="jpg,gif,png" media_type="inline" rows="<?PHP echo ($field_option['wysiwyg']["height"])? $field_option['wysiwyg']["height"] : '8';?>" id="text_area_<?PHP echo $key;?>_<?PHP echo rand(0,999999); ?>" name="<?PHP echo $key;?>"><?PHP echo esc_attr($value);?></textarea> 
 			
 			<?PHP } elseif($field_format == 'table_view') { ?>
 				
