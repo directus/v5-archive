@@ -5,12 +5,11 @@ require_once("inc/setup.php");
 
 //////////////////////////////////////////////////////////////////////////////
 
-$cms_html_title = "Browsing Items";
+$cms_html_title = "Browsing Tables";
 require_once("inc/header.php");
 
 //////////////////////////////////////////////////////////////////////////////
 ?>
-
 
 <h2>Tables</h2>
 
@@ -26,27 +25,25 @@ require_once("inc/header.php");
 	</thead>
 	<tbody class="check_no_rows">
 		<?PHP
-		//////////////////////////////////////////////////////////////////////////////
-		// Loop through all tables and display them
-		
 		foreach($visible_tables as $table){
-			
-			// If table is not hidden and user has access to table, all or is admin OR ALL IS TRUE
-			if((strpos($cms_user["view"],',' . $table . ',') !== false || $cms_user["view"] == 'all' || $cms_user["admin"] == '1') && !in_array($table,$settings['table_hidden'])){
-				
-				$table_info = get_rows_info($table);
-				$add_or_edit = ($table_info['num'] == 0)? '':'&item=1';
-				?>
-				<tr onclick="location.href='<?PHP echo (in_array($table,$settings['table_single']))? 'edit.php?table=' . $table . $add_or_edit : 'browse.php?table=' . $table; ?>'">
-					<td class="icon"><img src="media/site/icons/<?PHP echo (in_array($table,$settings['table_single']))?'database-arrow':'database';?>.png" width="16" height="16" /></td>
-					<td class="first_field"><div class="wrap"><?PHP echo uc_table($table); ?></div></td>
-					<td class="text_right"><?PHP echo $table_info['num']; ?></td>
-				</tr>
-				<?PHP
+			$table_info = get_rows_info($table);
+			$active_items = $table_info['num'];
+			if(in_array($table,$settings['table_single'])){
+				$add_or_edit = ($active_items == 0)? '':'&item=1';
+				$url = 'edit.php?table=' . $table . $add_or_edit;
+				$icon = 'database-arrow';
+			} else {
+				$url = 'browse.php?table=' . $table;
+				$icon = 'database';
 			}
+			?>
+			<tr onclick="location.href='<?PHP echo $url; ?>'">
+				<td class="icon"><img src="media/site/icons/<?PHP echo $icon; ?>.png" width="16" height="16" /></td>
+				<td class="first_field"><div class="wrap"><?PHP echo uc_table($table); ?></div></td>
+				<td class="text_right"><?PHP echo $active_items; ?></td>
+			</tr>
+			<?PHP
 		}
-		
-		//////////////////////////////////////////////////////////////////////////////
 		?>
 		<tr class="item no_rows"><td colspan="3">No tables available</td></tr>
 	</tbody>
