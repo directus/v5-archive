@@ -50,7 +50,7 @@ plugins/
 
 Requirements
 ///////////////////////////////////////////
-PHP 5.1
+PHP 5.2
 MySQL 4.0
 PDO with MySQL Extension - For security
 Register Globals Off - For security

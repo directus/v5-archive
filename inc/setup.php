@@ -14,12 +14,26 @@ $alert = array();
 // Database connection
 
 
+
 if(!file_exists('inc/config.php') && file_exists('install.php')){
 	header("Location: install.php"); 
 	die(); 
 }
 
 require_once("config.php");
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Error reporting
+
+
+
+if($debug){
+	error_reporting(E_ERROR | E_WARNING | E_PARSE);
+} else {
+	error_reporting(0);
+}
 
 
 

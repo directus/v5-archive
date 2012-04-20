@@ -293,8 +293,9 @@ if(!$_POST['media_ids_checked']){
 					$original_name = (strlen($_POST['url_media']) > 3 && $_POST['url_media'] != 'http://')? basename($_POST['url_media']) : $file_upload['name'];
 					$original_path = (strlen($_POST['url_media']) > 3 && $_POST['url_media'] != 'http://')? $_POST['url_media'] : $file_upload['tmp_name'];
 					
-					$file_info['title'] = str_replace("." . end(explode('.', $original_name)), "", $original_name);
-					$file_info['extension'] = strtolower(end(explode('.', $original_name)));
+					$file_info['title'] = pathinfo($original_name, PATHINFO_FILENAME);
+					
+					$file_info['extension'] = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
 					$file_info['extension'] = ($file_info['extension'] == "jpeg")? "jpg" : $file_info['extension'];
 					$file_info['extension'] = ($file_info['extension'] == "tiff")? "tif" : $file_info['extension'];
 					
@@ -306,8 +307,11 @@ if(!$_POST['media_ids_checked']){
 					
 					if($settings['cms']['media_naming'] == 'original'){
 						
+						// Sanatize filename
+						$safe_title = convert_filename($file_info['title']);
+						$file_info['file_name'] = $safe_title;
+						
 						// Loop until an available filename is found
-						$safe_title = $file_info['file_name'] = str_replace(' ', '-', preg_replace('!\s+!', ' ', preg_replace('`[^a-z0-9-\s_]`i', '', strtolower($file_info['title']))));  
 						$file_counter = 1; 
 						while(file_exists( "../../" . $settings['cms']['media_path'] . $file_info['file_name'] . "." . $file_info['extension'] )){
 							$file_info['file_name'] = $safe_title . '-' . $file_counter++;
@@ -428,7 +432,7 @@ if(!$_POST['media_ids_checked']){
 					$sth->bindParam(':id', $_POST['replace_id']);
 					if( $sth->execute() ){
 						$_SESSION['alert'] = 'saved';
-						insert_activity($table = 'directus_media', $file_info['id'], 'edited', uc_media_title($file_info['title']));
+						insert_activity($table = 'directus_media', $file_info['id'], 'edited', convert_filename($file_info['title'], ' '));
 					} else {
 						$_SESSION['alert'] = 'error_media_update';
 					}
@@ -462,7 +466,7 @@ if(!$_POST['media_ids_checked']){
 				if(count($error_each) == 0 && !$media_edit){
 					
 					// User entered values take precedence
-					$file_info['title'] = ($_POST['title'])? $_POST['title'] : uc_media_title($file_info['title']);
+					$file_info['title'] = ($_POST['title'])? $_POST['title'] : convert_filename($file_info['title'], ' ');
 					$file_info['caption'] = ($_POST['caption'])? nl2br($_POST['caption']) : nl2br($file_info['caption']);
 					$file_info['location'] = ($_POST['location'])? $_POST['location'] : $file_info['location'];
 					$file_info['tags'] = ($_POST['tags'])? $_POST['tags'] : $file_info['tags'];

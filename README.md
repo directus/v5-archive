@@ -13,7 +13,7 @@ Directus is a community driven project and accepts contributions of code and doc
 Compatibility
 ---------------------
 
-Directus 5.x is compatible with PHP 5.1 so all code supplied must stick to this requirement. If features take advantage of newer PHP functions than a fallback for 5.1 must be provided.
+Directus 5.x is compatible with PHP 5.2+ so all code supplied must stick to this requirement. If features take advantage of newer PHP functions than a fallback for 5.2 must be provided.
 
 
 PHP Style
