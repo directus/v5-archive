@@ -369,6 +369,12 @@ file_put_contents(substr(realpath(dirname(__FILE__)), 0, -3) . "inc/directus_log
 				
 				// Add the demo table only if the user wants it
 				if($key != "demo_table" || $_POST['demo_table']){
+				
+					// If there's a custom prefix we need to add it to the demo_table
+					if($key == "demo_table" && $db_prefix){
+						$value = str_replace("`demo_table`", "`".$db_prefix."demo_table`", $value);
+					}
+					
 					// Add the table
 					if(!$dbh->query($value)){
 						$errors[] = "<b>$key</b> could not be installed";
