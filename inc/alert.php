@@ -382,6 +382,19 @@ if(is_array($alerts) && count($alerts) > 0){
 		} elseif($alert == 'error_resetting_settings'){
 			$alert_message['error'][] = 'Error cleaning up settings table';
 		
+		} elseif($alert == 'success_add_table'){
+			$alert_message['success'][] = 'Table added';
+			
+		} elseif($alert == 'error_add_table'){
+			$alert_message['error'][] = 'Error adding table';
+		
+		} elseif($alert == 'success_add_field'){
+			$alert_message['success'][] = 'Field added';
+			
+		} elseif($alert == 'error_add_field'){
+			$alert_message['error'][] = 'Error adding field';
+		
+		
 		
 		
 		

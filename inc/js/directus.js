@@ -207,26 +207,6 @@ $(document).ready(function(){
 		
 	});
 	
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Numeric only control handler
-	
-	jQuery.fn.ForceNumericOnly = function(){
-		return this.each(function(){
-			$(this).keydown(function(e){
-				var key = e.charCode || e.keyCode || 0;
-				// allow backspace, tab, delete, arrows, numbers/letters and keypad numbers ONLY
-				return (
-				key == 8 || 
-				key == 9 ||
-				key == 46 ||
-				(key >= 37 && key <= 40) ||
-				(key >= 48 && key <= 90) ||
-				(key >= 96 && key <= 105));
-			});
-		});
-	};
-	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Forgot password
 	
@@ -1714,7 +1694,6 @@ $(document).ready(function(){
 				if(msg) {
 					options_container.html(msg);
 					// Autoopen "more options" popup if RELATIONAL or other datatypes with required settings
-					$(".force_numeric").ForceNumericOnly();
 					datatype_more_options.show();
 				} else {
 					datatype_more_options.hide();
@@ -1751,19 +1730,93 @@ $(document).ready(function(){
 	
 	//////////////////////////////////////////////////////////////////////////////
 	
-	
+	// Open the dialog to add table
 	$("#add_table_button").click(function(){
-		
 		directus_dialog('add_table', 'Add new table', true);
-		
 		return false;
 	});
 	
-	$(".force_safe").live('keyup',function(){
+	// Open the dialog to add field
+	$(".add_field_button").click(function(){
+		var table = $(this).attr("table");
+		directus_dialog('add_field', 'Add new field', table);
+		return false;
+	});
+	
+	// Only allow characters that are safe
+	$(".force_safe").live('keyup',function(e){		
+		var regex_replace = /[^0-9a-zA-Z_]/g;
 		current_val = $(this).val();
-		current_val = current_val.replace(/[^0-9a-zA-Z_]/g,'');
-		$(this).val(current_val);
+		if(current_val.search(regex_replace) != -1){
+			current_val = current_val.replace(regex_replace,'');
+			$(this).val(current_val);
+		}
 	}); 
+	
+	// Submit the add table request
+	$("#add_table_ajax").live('click', function() {
+	
+		if($("#add_table_form input[name=table_name]").val() == ''){
+			alert("Please enter a table name");
+		} else {	
+			$('#throbber').animate({ opacity: 1.0 }, 0);
+			data = $("#add_table_form").serialize() + '&action=add_table';
+			$.ajax({
+				url: "inc/ajax.php",
+				type: "POST",
+				data: data,
+				success: function(msg){
+					if(msg == 'error_add_table'){
+						alert("There was an error, please try again later…");
+					} else {
+						window.location.reload();
+					}
+				}
+			});
+		}
+		return false;
+	});
+	
+	// Submit the add field request
+	$("#add_field_ajax").live('click', function() {
+	
+		if($("#add_field_form input[name=field_name]").val() == ''){
+			alert("Please enter a field name");
+		} else {	
+			$('#throbber').animate({ opacity: 1.0 }, 0);
+			data = $("#add_field_form").serialize() + '&action=add_field';
+			$.ajax({
+				url: "inc/ajax.php",
+				type: "POST",
+				data: data,
+				success: function(msg){
+					if(msg == 'error_add_field'){
+						alert("There was an error, please try again later");
+					} else {
+						window.location.reload();
+					}
+				}
+			});
+		}
+		return false;
+	});	
+	
+	// Show or hide the length/default field if the type allows it
+	$('#add_field_type').live('change', function(event){
+		if($(this).val() == "VARCHAR" || $(this).val() == "TINYINT" || $(this).val() == "INT"){
+			$("#add_field_length").show();
+		} else {
+			$("#add_field_length").hide();
+		}
+		
+		if($(this).val() == "TINYTEXT" || $(this).val() == "TEXT" || $(this).val() == "MEDIUMTEXT" || $(this).val() == "LONGTEXT" || $(this).val() == "TINYBLOB" || $(this).val() == "BLOB" || $(this).val() == "MEDIUMBLOB" || $(this).val() == "LONGBLOB"){
+			$("#add_field_default").hide();
+		} else {
+			$("#add_field_default").show();
+		}
+	});
+	
+	
 	
 	
 	//////////////////////////////////////////////////////////////////////////////
@@ -2147,7 +2200,24 @@ function modal_edit_live(){
 	//////////////////////////////////////////////////////////////////////////////
 	// Force Numeric fields
 	
-	$(".force_numeric").ForceNumericOnly();
+	$(".force_numeric").live("keydown", function(e) {
+		var key = e.charCode || e.keyCode || 0;
+		
+		// Allow: backspace, delete, tab and escape
+		if ( key == 46 || key == 8 || key == 9 || key == 27 || 
+			// Allow: Ctrl+A
+			(key == 65 && e.ctrlKey === true) || 
+			// Allow: home, end, left, right
+			(key >= 35 && key <= 39)) {
+			// let it happen, don't do anything
+			return;
+		} else {
+			// Ensure that it is a number and stop the keypress
+			if ((key < 48 || key > 57) && (key < 96 || key > 105 )) {
+				e.preventDefault(); 
+			}   
+		}
+	});
 	
 	//////////////////////////////////////////////////////////////////////////////
 	// Fancy Relational
@@ -2865,9 +2935,6 @@ function directus_dialog(type, title, message){
 		type: "POST",
 		data: "type="+type+"&title="+title+"&message="+message,
 		success: function(msg){
-		
-			console.log("here:"+msg);
-		
 			$("#dialog_window").html(msg);
 			$("#dialog_window").fadeIn(250);
 			$('#throbber').animate({ opacity: 0.0 }, 1000);

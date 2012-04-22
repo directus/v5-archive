@@ -183,7 +183,66 @@ if($_POST['action'] == 'set_active'){
 	}
 	
 	echo json_encode($final_tags);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Add a table to the database
 	
+} elseif($_POST['action'] == 'add_table' && $cms_user['admin'] == 1) {
+	
+	$table = clean_db_item($_POST['table_name']);
+	$active = ($_POST['table_active'])? ", `active` TINYINT(1) NOT NULL DEFAULT '1'" : "";
+	$sort = ($_POST['table_sort'])? ", `sort` INT(10) NOT NULL DEFAULT '0'" : "";
+		
+	$sql = "CREATE TABLE IF NOT EXISTS `$table` (`id` INT(10) NOT NULL AUTO_INCREMENT, PRIMARY KEY(id)$active $sort)";
+	
+	if($dbh->query($sql)){
+		// Success, so add to revision log
+		if(insert_activity($table = $table, $row = 0, $type = 'structure', $sql = $sql)){
+			$_SESSION['alert'] = "success_add_table";
+		}
+	} else {
+		// Error
+		$sql_error = print_r($dbh->errorInfo(), true);
+		if(insert_activity($table = $table, $row = 0, $type = 'error', $sql = $sql . "\n\n\nError:\n" . $sql_error)){
+			//
+		}
+		echo "error_add_table";
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Add a field to a table
+
+} elseif($_POST['action'] == 'add_field' && $cms_user['admin'] == 1) {
+	
+	$table = clean_db_item($_POST['table_name']);
+	$field = clean_db_item($_POST['field_name']);
+	$type = clean_db_item($_POST['field_type']);
+	
+	$length = intval($_POST['field_length']);
+	$length = ($length > 0)? $length : 255;
+	$length_sql = ($type == "VARCHAR" || $type == "TINYINT" || $type == "INT")? "($length)" : "";
+	
+	$default = $_POST['field_default'];
+	$default_sql = ($default == "" || $type == "TINYTEXT" || $type == "TEXT" || $type == "MEDIUMTEXT" || $type == "LONGTEXT" || $type == "TINYBLOB" || $type == "BLOB" || $type == "MEDIUMBLOB" || $type == "LONGBLOB")? "" : "DEFAULT '$default'";
+		
+	$sql = "ALTER TABLE `$table` ADD `$field` $type $length_sql NOT NULL $default_sql";
+	
+	if($dbh->query($sql)){
+		// Success, so add to revision log
+		if(insert_activity($table = $table, $row = $field, $type = 'structure', $sql = $sql)){
+			$_SESSION['alert'] = "success_add_field";
+		}
+	} else {
+		// Error
+		$sql_error = print_r($dbh->errorInfo(), true);
+		if(insert_activity($table = $table, $row = $field, $type = 'error', $sql = $sql . "\n\n\nError:\n" . $sql_error)){
+			//
+		}
+		echo "error_add_field";
+	}
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

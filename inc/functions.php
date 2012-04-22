@@ -1238,6 +1238,18 @@ function get_item_description($activity){
 		$temp['link_text'] = '';
 		$temp['text'] = 'Directus install';
 		
+	} elseif($activity['type'] == 'structure'){
+		$temp['attributes'] = '';
+		if(strpos($activity['sql'], "CREATE TABLE") !== false){
+			$temp['link'] = 'browse.php?table=' . $activity['table'];
+			$temp['link_text'] = uc_table($activity['table']);
+			$temp['text'] = 'has been added';
+		} elseif(strpos($activity['sql'], "ALTER TABLE `") !== false){
+			$temp['link'] = 'browse.php?table=' . $activity['table'];
+			$temp['link_text'] = uc_convert($activity['row']);
+			$temp['text'] = 'has been added to ' . uc_table($activity['table']);
+		}
+		
 	} elseif($activity['table'] == 'directus_users'){
 		$temp['attributes'] = '';
 		$temp['link'] = 'users.php';

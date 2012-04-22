@@ -90,7 +90,7 @@ require_once("inc/header.php");
 
 <div id="page_header" class="clearfix">
 	<h2 class="col_8">Settings</h2>
-	<a id="add_table_button" class="button big color right add_header" href="#">Add New Table</a>
+	<a id="add_table_button" class="button big right add_header" href="#">Add New Table</a>
 </div>
 
 <hr class="chubby">
@@ -197,6 +197,7 @@ require_once("inc/header.php");
 							<input type="checkbox" name="table_hidden[]" value="<?PHP echo $table;?>" <?PHP echo (in_array($table, $settings['table_hidden']))? 'checked="checked"' : ''; ?> ><label class="normal" style="margin-right:0.5em;">Hidden</label>
 							<input type="checkbox" name="table_single[]" value="<?PHP echo $table;?>" <?PHP echo (in_array($table, $settings['table_single']))? 'checked="checked"' : ''; ?> ><label class="normal" style="margin-right:0.5em;">Single</label>
 							<input type="checkbox" name="table_inactive_default[]" value="<?PHP echo $table;?>" <?PHP echo (in_array($table, $settings['table_inactive_default']))? 'checked="checked"' : ''; ?> ><label class="normal" style="margin-right:0.5em;">Inactive by default</label>
+							<input class="button pill right add_field_button" type="button" table="<?PHP echo $table;?>" value="Add New Field">
 						</div>
 						<table class="field_options">
 							<thead>
