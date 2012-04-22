@@ -168,6 +168,10 @@ hr.bottom {
 	display: inline;
 }
 
+.handle {
+	cursor: move;
+}
+
 /* buttons
 -------------------------------------------------------------- */
 
@@ -984,10 +988,6 @@ th.icon,td.icon,th.check,td.check,th.order,td.order {
 	border-right: 0 !important;
 	border-left: 0 !important;
 	text-align: center;
-}
-
-td.order {
-	cursor: move;
 }
 
 th.check,td.check {

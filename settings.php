@@ -210,7 +210,7 @@ require_once("inc/header.php");
 									<th>Note</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody class="field_sortable" table_name="<?PHP echo $table; ?>">
 								
 								<?PHP
 								// Loop through all fields in this table
@@ -219,9 +219,10 @@ require_once("inc/header.php");
 									$table_field = $table.','.$field;
 									$datatype = $settings['field_format'][$table_field];
 									$type = $table_rows['info'][$field]['type_lengthless'];
+									$type_full = $table_rows['info'][$field]['type'];
 									?>
-									<tr>
-										<td><div class="wrap" title="<?PHP echo $type;?>"><?PHP echo uc_convert($field); ?></div></td>
+									<tr field_name="<?PHP echo $field; ?>" field_type="<?PHP echo $type_full; ?>">
+										<td><div class="wrap handle" title="<?PHP echo $type;?>"><?PHP echo uc_convert($field); ?></div></td>
 										<td>
 											<select class="datatype_options" name="field_format[<?PHP echo $table_field;?>]" tablefield="<?PHP echo $table_field;?>">
 												<?PHP

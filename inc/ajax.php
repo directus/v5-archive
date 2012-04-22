@@ -243,6 +243,37 @@ if($_POST['action'] == 'set_active'){
 		echo "error_add_field";
 	}
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Reorder field
+
+} elseif($_POST['action'] == 'reorder_field' && $cms_user['admin'] == 1) {
+	
+	$table = clean_db_item($_POST['table_name']);
+	$field = clean_db_item($_POST['field_name']);
+	$type = $_POST['field_type'];
+	
+	$table_info = get_rows_info($table);
+	$first_field = ($table_info['active'])? 'active' : 'id';
+	$first_field = ($table_info['sort'])? 'sort' : $first_field;
+	$after = ($_POST['field_after'])? clean_db_item($_POST['field_after']) : $first_field;
+	
+	$sql = "ALTER TABLE `$table` MODIFY `$field` $type AFTER `$after`";
+
+	if($dbh->query($sql)){
+		// Success, so add to revision log
+		if(insert_activity($table = $table, $row = $field, $type = 'structure', $sql = $sql)){
+			//
+		}
+	} else {
+		// Error
+		$sql_error = print_r($dbh->errorInfo(), true);
+		if(insert_activity($table = $table, $row = $field, $type = 'error', $sql = $sql . "\n\n\nError:\n" . $sql_error)){
+			//
+		}
+		echo "error_reorder_field";
+	}
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

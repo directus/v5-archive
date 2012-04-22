@@ -394,6 +394,12 @@ if(is_array($alerts) && count($alerts) > 0){
 		} elseif($alert == 'error_add_field'){
 			$alert_message['error'][] = 'Error adding field';
 		
+		} elseif($alert == 'success_reorder_field'){
+			$alert_message['success'][] = 'Fields reordered';
+			
+		} elseif($alert == 'error_reorder_field'){
+			$alert_message['error'][] = 'Error reordering field';
+		
 		
 		
 		

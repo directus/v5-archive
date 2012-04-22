@@ -1732,14 +1732,14 @@ $(document).ready(function(){
 	
 	// Open the dialog to add table
 	$("#add_table_button").click(function(){
-		directus_dialog('add_table', 'Add new table', true);
+		directus_dialog('add_table', 'Add New Table', true);
 		return false;
 	});
 	
 	// Open the dialog to add field
 	$(".add_field_button").click(function(){
 		var table = $(this).attr("table");
-		directus_dialog('add_field', 'Add new field', table);
+		directus_dialog('add_field', 'Add New Field', table);
 		return false;
 	});
 	
@@ -1816,6 +1816,38 @@ $(document).ready(function(){
 		}
 	});
 	
+	// Allow drag and drop to reorder fields/columns
+	$(".field_sortable").sortable({
+		axis: 'y',
+		//containment: 'parent',
+		//helper: 'clone',
+		handle: '.handle',
+		items: 'tr',
+		opacity: '0.6',
+		//placeholder: 'sortable_placeholder_browse',
+		tolerance: 'intersect',
+		appendTo: 'body',
+		update: function(e, ui){
+			// Success
+			$('#throbber').animate({ opacity: 1.0 }, 0);
+			var prev_field = (ui.item.prev().attr('field_name'))? ui.item.prev().attr('field_name') : "";
+			data = 'action=reorder_field&table_name='+ui.item.parent().attr('table_name')+"&field_name="+ui.item.attr('field_name')+"&field_type="+encodeURI(ui.item.attr('field_type'))+"&field_after="+prev_field;
+			
+			$.ajax({
+				url: "inc/ajax.php",
+				type: "POST",
+				data: data,
+				success: function(msg){
+					if(msg == 'error_reorder_field'){
+						directus_alert("error_reorder_field");
+					} else {
+						directus_alert("success_reorder_field");
+					}
+					$('#throbber').animate({ opacity: 0.0 }, 1000);
+				}
+			});
+		}
+	});
 	
 	
 	
