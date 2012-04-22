@@ -215,13 +215,13 @@ $(document).ready(function(){
 		return this.each(function(){
 			$(this).keydown(function(e){
 				var key = e.charCode || e.keyCode || 0;
-				// allow backspace, tab, delete, arrows, numbers and keypad numbers ONLY
+				// allow backspace, tab, delete, arrows, numbers/letters and keypad numbers ONLY
 				return (
 				key == 8 || 
 				key == 9 ||
 				key == 46 ||
 				(key >= 37 && key <= 40) ||
-				(key >= 48 && key <= 57) ||
+				(key >= 48 && key <= 90) ||
 				(key >= 96 && key <= 105));
 			});
 		});
@@ -547,9 +547,9 @@ $(document).ready(function(){
 			});
 			
 			/* URL might need base_path if used in plugins */
-			data = 'type=header_fields&name='+table+'&value='+field_names;
+			data = 'action=set_preference&type=header_fields&name='+table+'&value='+field_names;
 			$.ajax({
-				url: "inc/set_preference.php",
+				url: "inc/ajax.php",
 				type: "POST",
 				data: data,
 				success: function(msg){
@@ -636,7 +636,7 @@ $(document).ready(function(){
 		update: function(e, ui){
 			directus_alert('now_reordering');
 			
-			data = $(this).sortable("serialize") + "&table=" + $('#cms_table').text();
+			data = $(this).sortable("serialize") + "&action=set_sort&table=" + $('#cms_table').text();
 			
 			$(this).trigger("update");
 			order = 1;
@@ -645,7 +645,7 @@ $(document).ready(function(){
 			});
 			
 			$.ajax({
-				url: "inc/set_sort.php",
+				url: "inc/ajax.php",
 				type: "POST",
 				data: data,
 				success: function(msg){
@@ -1006,15 +1006,6 @@ $(document).ready(function(){
 	//////////////////////////////////////////////////////////////////////////////
 	// Tag Autocomplete
 	
-	/*
-	$('.tag_autocomplete').autocomplete({
-		source: "inc/get_data.php?type=autocomplete&table="+$('#cms_table').text()+"&field=tags",
-		select: function(event, ui) { 
-			console.log( escape(ui.item.value.replace(" ", "_")) ); 
-		}
-	});
-	*/
-	
 	function split( val ) {
 		return val.split( /,\s*/ );
 	}
@@ -1034,9 +1025,12 @@ $(document).ready(function(){
 		.autocomplete({
 			minLength: 0,
 			source: function( request, response ) {
-				$.getJSON( "inc/get_data.php?type=autocomplete&table="+$('#cms_table').text()+"&field="+$(this)[0].element.context.id.substr(6), {
-					term: extractLast( request.term )
-				}, response );
+				$.post("inc/ajax.php", {
+					term: extractLast( request.term ),
+					action: 'tag_autocomplete',
+					table: $('#cms_table').text(),
+					field: $(this)[0].element.context.id.substr(6)
+				}, response, "json");
 			},
 			focus: function() {
 				// prevent value inserted on focus
@@ -1758,6 +1752,21 @@ $(document).ready(function(){
 	//////////////////////////////////////////////////////////////////////////////
 	
 	
+	$("#add_table_button").click(function(){
+		
+		directus_dialog('add_table', 'Add new table', true);
+		
+		return false;
+	});
+	
+	$(".force_safe").live('keyup',function(){
+		current_val = $(this).val();
+		current_val = current_val.replace(/[^0-9a-zA-Z_]/g,'');
+		$(this).val(current_val);
+	}); 
+	
+	
+	//////////////////////////////////////////////////////////////////////////////
 	
 	
 	
@@ -2267,9 +2276,9 @@ function seconds_time(sec) {
 function set_session(name, value){
 	//alert(name+value);
 	$('#throbber').animate({ opacity: 1.0 }, 0);
-	data = 'session='+name+'&value='+value;
+	data = 'action=set_session&session='+name+'&value='+value;
 	$.ajax({
-		url: "inc/set_preference.php",
+		url: "inc/ajax.php",
 		type: "POST",
 		data: data,
 		success: function(msg){
@@ -2392,9 +2401,9 @@ function change_status(table, id, status, type){
 	// var r = confirm("Are you sure about "+action+" these items?");
 	// if (r == true) {
 	
-	data = 'table='+table+'&id='+id+'&status='+status;
+	data = 'action=set_active&table='+table+'&id='+id+'&status='+status;
 	$.ajax({
-		url: "inc/set_active.php",
+		url: "inc/ajax.php",
 		type: "POST",
 		data: data,
 		success: function(msg){
@@ -2856,6 +2865,9 @@ function directus_dialog(type, title, message){
 		type: "POST",
 		data: "type="+type+"&title="+title+"&message="+message,
 		success: function(msg){
+		
+			console.log("here:"+msg);
+		
 			$("#dialog_window").html(msg);
 			$("#dialog_window").fadeIn(250);
 			$('#throbber').animate({ opacity: 0.0 }, 1000);

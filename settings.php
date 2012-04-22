@@ -88,7 +88,10 @@ require_once("inc/header.php");
 ?>
 
 
-<h2>Settings</h2>
+<div id="page_header" class="clearfix">
+	<h2 class="col_8">Settings</h2>
+	<a id="add_table_button" class="button big color right add_header" href="#">Add New Table</a>
+</div>
 
 <hr class="chubby">
 
@@ -172,7 +175,7 @@ require_once("inc/header.php");
 			<div class="box">
 				<a href="#" id="settings_extended_details">View Server Details</a>
 			</div>
-			<input class="button color big now_activity" activity="saving" type="submit" value="Update Settings" name="submit"> <span>or <a class="cancel" href="#">Cancel</a></span>			
+			<input class="button color big now_activity" activity="saving" type="submit" value="Update Settings" name="submit"> <span>or <a class="cancel" href="settings.php">Cancel</a></span>			
 		</div>
 		
 		<div id="settings_tables">
