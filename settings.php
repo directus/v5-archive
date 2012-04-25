@@ -222,7 +222,7 @@ require_once("inc/header.php");
 									$type_full = $table_rows['info'][$field]['type'];
 									?>
 									<tr field_name="<?PHP echo $field; ?>" field_type="<?PHP echo $type_full; ?>">
-										<td><div class="wrap handle" title="<?PHP echo $type;?>"><?PHP echo uc_convert($field); ?></div></td>
+										<td><div class="wrap handle" title="<?PHP echo $type_full;?>"><?PHP echo uc_convert($field); ?></div></td>
 										<td>
 											<select class="datatype_options" name="field_format[<?PHP echo $table_field;?>]" tablefield="<?PHP echo $table_field;?>">
 												<?PHP
