@@ -1790,7 +1790,7 @@ function generate_fields($data) {
 											<td class="order handle"><img src="media/site/icons/ui-splitter-horizontal.png" width="16" height="16" /></td> 
 											<td>
 												<div class="wrap">
-													<?PHP echo implode($field_option['relational']["option_glue"],$option_array);?>
+													<?PHP echo ellipses(implode($field_option['relational']["option_glue"],$option_array), 50);?>
 													<input type="hidden" name="<?PHP echo $key;?>[]" value="<?PHP echo $id;?>">
 													<a class="badge edit_fancy modal" href="edit.php?modal=<?PHP echo $key;?>&table=<?PHP echo $field_option['relational']["add_from_table"];?>&parent_table=<?PHP echo $_GET['table'];?>&item=<?PHP echo $id;?>" style="display:none;">Edit</a>
 												</div>
