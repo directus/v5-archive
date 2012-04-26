@@ -510,7 +510,6 @@ file_put_contents(substr(realpath(dirname(__FILE__)), 0, -3) . "inc/directus_log
 	
 	<script type="text/javascript" src="inc/js/jquery.js"></script>
 	<script type="text/javascript" src="inc/js/jquery-ui.js"></script>
-	<script type="text/javascript" src="inc/js/directus.js"></script>
 	
 	<script>
 		$(document).ready(function(){
