@@ -147,7 +147,7 @@ if( in_array( strtolower( ini_get( 'magic_quotes_gpc' ) ), array( '1', 'on' ) ) 
 $_POST = array_map( 'trim', $_POST );
 
 // Get this path
-$directus_path = dirname("http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']) . '/';
+$directus_path = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['HTTP_HOST'] . str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 
 // Set the timezone for datetimes
 if(function_exists('date_default_timezone_set')){
@@ -510,7 +510,6 @@ file_put_contents(substr(realpath(dirname(__FILE__)), 0, -3) . "inc/directus_log
 	
 	<script type="text/javascript" src="inc/js/jquery.js"></script>
 	<script type="text/javascript" src="inc/js/jquery-ui.js"></script>
-	<script type="text/javascript" src="inc/js/directus.js"></script>
 	
 	<script>
 		$(document).ready(function(){
