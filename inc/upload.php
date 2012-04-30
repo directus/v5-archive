@@ -253,11 +253,11 @@ if(!$_POST['media_ids_checked']){
 						$file_info['width'] = $array[0]['width'];
 						$file_info['tags'] = $array[0]['tags'];
 						$file_info['date_created'] = $array[0]['upload_date'];
-						$vimeo_thumb = $array[0]['thumbnail_large'];
+						$video_thumb = $array[0]['thumbnail_large'];
 						$file_info['type'] = 'embed';
 						
 						// Get thumbnail
-						$ch = curl_init($vimeo_thumb);
+						$ch = curl_init($video_thumb);
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 						$data = curl_exec($ch);
 						curl_close($ch);
@@ -269,6 +269,78 @@ if(!$_POST['media_ids_checked']){
 						$file_info['height'] = 340;
 						$file_info['width'] = 560;
 					}
+					
+					
+					
+					
+				
+				
+				
+				
+				
+				
+				
+				
+				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				// 5min - http://www.5min.com/Video/Just-Released-Full-Trailer-of-Prometheus-517308482
+				
+				} elseif(substr($_POST['url_media'], 0, 20) == 'http://www.5min.com/'){
+					
+					// Get ID from URL
+					$url_pieces = explode("-", $_POST['url_media']);
+					$video_id = intval(end($url_pieces));
+
+					// Can't find the video ID
+					if($video_id === FALSE){
+						die("5min video ID not detected. Please paste the whole URL.");
+					}
+					
+					$file_info['source'] = $file_info['file_name'] = $video_id;
+					$file_info['extension'] = '5min';
+					
+					// Get Data
+					$url = 'http://api.5min.com/video/' . $video_id . '/info.xml?multiple_thumbnails=true&thumbnail_sizes=true';
+					$ch = curl_init($url);
+					curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+					curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 0);
+					$content = curl_exec($ch);
+					curl_close($ch);
+					
+					$video_object = simplexml_load_string(trim($content));
+					
+					
+					
+					if($content !== false) {
+						$file_info['title'] = (string)$video_object->channel->item->title;
+						$file_info['caption'] = strip_tags($video_object->channel->item->description);
+						$file_info['file_size'] = (string)$video_object->channel->item->enclosure->attributes()->duration;
+						$file_info['height'] = 401;
+						$file_info['width'] = 480;
+						$file_info['tags'] = "";
+						$file_info['date_created'] = (string)$video_object->channel->item->pubDate;
+						$video_thumb = $video_object->channel->item->image->url;
+						$file_info['type'] = 'embed';
+						
+						// Get thumbnail
+						$ch = curl_init($video_thumb);
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+						$data = curl_exec($ch);
+						curl_close($ch);
+						$move = file_put_contents("../media/cms_thumbs/5min_" . $video_id . ".jpg", $data);	
+						$move = file_put_contents("../../" . $settings['cms']['media_path'] . "5min_" . $video_id . ".jpg", $data);	
+					} else {
+						// Unable to get 5min details
+						$file_info['title'] = "Unable to Retrieve 5min Title";
+						$file_info['height'] = 401;
+						$file_info['width'] = 480;
+					}
+					
+					
+					
+					
+					
+					
+					
 					
 					
 				

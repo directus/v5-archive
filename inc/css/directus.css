@@ -1976,6 +1976,10 @@ video {
 	background: url(../../media/site/icons/vimeo.png) no-repeat;
 }
 
+.video_icon.video_5min  {
+	background: url(../../media/site/icons/5min.png) no-repeat;
+}
+
 .doc_thumb {
 	display: inline-block;
 	width: 50px;

@@ -87,7 +87,7 @@ if($_GET['extensions']){
 						//////////////////////////////////////////////////////////////////////////////
 						// Get media details
 						
-						if($extension == 'youtube' || $extension == 'vimeo') {
+						if($media_detail["type"] == 'embed') {
 							$length_size = seconds_convert($media_detail['file_size']);
 							if($extension == 'youtube'){
 								$link = 'http://www.youtube.com/watch?v='.$media_detail["source"];
@@ -95,6 +95,9 @@ if($_GET['extensions']){
 							} elseif($extension == 'vimeo'){
 								$link = 'http://vimeo.com/'.$media_detail["source"];
 								$link_text = 'http://vimeo.com/<b>'.$media_detail["source"].'</b>';
+							} elseif($extension == '5min'){
+								$link = 'http://www.5min.com/Video/'.$media_detail["source"];
+								$link_text = 'http://www.5min.com/Video/<b>'.$media_detail["source"].'</b>';
 							}
 							$dimensions = $media_detail['width'] . ' x ' . $media_detail['height'] . ' - ';
 						} else {	
@@ -174,6 +177,23 @@ if($_GET['extensions']){
 							<param name="allowscriptaccess" value="always" />
 							<param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=<?PHP echo $media_detail["source"]; ?>&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=ffffff&amp;fullscreen=1" />
 							<embed src="http://vimeo.com/moogaloop.swf?clip_id=<?PHP echo $media_detail["source"]; ?>&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=ffffff&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="650" height="350">
+							</embed>
+							</object>
+						</div>
+						<?PHP 
+					} 
+					
+					//////////////////////////////////////////////////////////////////////////////
+					
+					if($media_detail['extension'] == '5min'){ 
+						?>
+						<div class="field">
+							<object width="650" height="350" id="FiveminPlayer">
+							<param name="allowfullscreen" value="true"/>
+							<param name="allowScriptAccess" value="always"/>
+							<param name="movie" value="http://embed.5min.com/<?PHP echo $media_detail["source"]; ?>/"/>
+							<param name="wmode" value="opaque" />
+							<embed name="FiveminPlayer" src="http://embed.5min.com/<?PHP echo $media_detail["source"]; ?>/" type="application/x-shockwave-flash" width="650" height="350" allowfullscreen="true" allowScriptAccess="always" wmode="opaque">
 							</embed>
 							</object>
 						</div>

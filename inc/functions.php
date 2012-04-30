@@ -1478,7 +1478,7 @@ function generate_media_item($id, $title, $extension, $source, $height, $width, 
 			
 			generate_media_image($extension, $source, $height, $width, $file_size);
 			$extension = strtoupper($extension);
-			$file_size_text = ($extension == 'YOUTUBE' || $extension == 'VIMEO')? seconds_convert($file_size) : byte_convert($file_size);
+			$file_size_text = ($extension == 'YOUTUBE' || $extension == 'VIMEO' || $extension == '5MIN')? seconds_convert($file_size) : byte_convert($file_size);
 			?>
 			
 		</td> 
@@ -1580,11 +1580,11 @@ function generate_media_image($extension, $source, $height, $width, $file_size, 
 			<img src="<?PHP echo $file_path; ?>?<?PHP echo $file_size;?>" width="<?PHP echo $thumb_width; ?>" height="<?PHP echo $thumb_height; ?>">
 			<?PHP
 		}
-	} elseif($extension == 'youtube' || $extension == 'vimeo') {
+	} elseif($extension == 'youtube' || $extension == 'vimeo' || $extension == '5min') {
 		?>
 		<div class="video_thumb">
 			<img src="<?PHP echo $settings['cms']['thumb_path']; ?><?PHP echo $extension; ?>_<?PHP echo $source; ?>.jpg" width="<?PHP echo $size;?>px" style="z-index:1;" />
-			<span class="video_icon <?PHP echo ($extension == 'youtube')?'video_youtube':'video_vimeo'?>"></span>
+			<span class="video_icon video_<?PHP echo $extension; ?>"></span>
 		</div>
 		<?PHP
 	} else {
