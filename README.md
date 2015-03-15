@@ -1,3 +1,7 @@
+This Version of Directus has been deprecated, and is superseded by [Directus6](https://github.com/RNGR/directus6). Learn about its updates and improvements [here](http://getdirectus.com).
+============================================
+
+
 Directus
 =====================
 
