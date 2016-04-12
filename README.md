@@ -1,11 +1,15 @@
-This Version of Directus has been deprecated, and is superseded by [Directus6](https://github.com/RNGR/directus6). Learn about its updates and improvements [here](http://getdirectus.com).
-============================================
+<p align="center">
+<img src="https://s3.amazonaws.com/f.cl.ly/items/3Q2830043H1Y1c1F1K2D/directus-logo-stacked.png" alt="Directus Logo"/>
+</p>
 
+
+This Version of Directus has been deprecated, and is superseded by [Directus6](https://github.com/directus/directus). Learn about its updates and improvements [here](http://getdirectus.com).
+============================================
 
 Directus
 =====================
 
-Directus is a free and open source content management framework written in PHP that provides a feature-rich environment for rapid development and management of custom MySQL database solutions. Visit [getdirectus.com](http://getdirectus.com/get) for more info.
+Directus is a free and open source content management framework written in PHP that provides a feature-rich environment for rapid development and management of custom MySQL database solutions. Visit [getdirectus.com](http://getdirectus.com) for more info.
 
 
 Contributing
