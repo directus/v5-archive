@@ -14,6 +14,8 @@
 
 > _Our Core team is quite small and can not maintain legacy versions of Directus. We'll glady review any community pull-requests to this repository, but using this version is highly discouraged._
 
+<p>&nbsp;</p>
+
 ----
 
 <p align="center">
