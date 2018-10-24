@@ -7,17 +7,8 @@
 <p>&nbsp;</p>
 
 <h1 align="center">
-  This version of Directus has been deprecated and is superseded by <a href="https://github.com/directus/directus">Directus 7</a>. Learn about its updates and improvements at <a href="https://directus.io">directus.io</a>.
+  This end-of-life version of Directus has been deprecated and is superseded by <a href="https://github.com/directus/directus">Directus 7</a>. Learn more about the updates and improvements of our new version at <a href="https://directus.io">directus.io</a>.
 </h1>
-
-<h3 align="center">
-  <a href="https://directus.io">Website</a> • 
-  <a href="https://docs.directus.io">Docs</a> • 
-  <a href="https://docs.directus.io/api/reference.html">API Reference</a> • 
-  <a href="https://docs.directus.io/app/user-guide.html">User Guide</a> • 
-  <a href="https://directus.app">Demo</a> • 
-  <a href="https://docs.directus.io/supporting-directus.html">Contribute</a>
-</h3>
 
 <p>&nbsp;</p>
 
