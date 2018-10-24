@@ -7,7 +7,7 @@
 <p>&nbsp;</p>
 
 <h1 align="center">
-  This version of Directus has been deprecated and is superseded by [Directus 7](https://github.com/directus/directus). Learn about its updates and improvements [here](https://directus.io).
+  This version of Directus has been deprecated and is superseded by <a href="https://github.com/directus/directus">Directus 7</a>. Learn about its updates and improvements at <a href="https://directus.io">directus.io</a>.
 </h1>
 
 <h3 align="center">
